@@ -9,7 +9,7 @@
     "build": "webpack",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
-    "lint": "eslint --ext .js --ignore-path .gitignore ./src",
+    "lint": "eslint --ext .js --ignore-path .gitignore",
     "prettify": "prettier --config .prettierrc --write"
   },
   "author": "",
@@ -20,10 +20,11 @@
     }
   },
   "lint-staged": {
-    "*.{js}": [
-      "npm run prettify --",
-      "npm run lint --",
-      "npm add",
+    "*.js": [
+      "npm run lint --"
+    ],
+    "*.{js,css,md}": [
+      "npm run prettify --"
     ]
   },
   "devDependencies": {
