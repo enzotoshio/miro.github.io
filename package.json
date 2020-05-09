@@ -20,11 +20,10 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js}": [
       "npm run prettify --",
       "npm run lint --",
       "npm add",
-      "eslint --cache --fix"
     ]
   },
   "devDependencies": {

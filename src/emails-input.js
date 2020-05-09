@@ -1,5 +1,5 @@
 function EmailsInput(context, options) {
-  console.log('>>>> EmailInput: ', context, options);
+  console.log('>>>> EmailInput: ', context, options); 
 
   return {
     // A method to get all entered emails. Both valid and invalid.
