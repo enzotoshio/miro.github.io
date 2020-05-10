@@ -132,7 +132,12 @@ describe('EmailsInput', () => {
 
       const emails = emailsInput.getAllEmails()
 
-      expect(emails).toContain('mufasa@lion.com')
+      const emailBlock = container.querySelector('.emails-input--email-block')
+      expect(emails).toContainEqual({
+        address: 'mufasa@lion.com',
+        element: emailBlock,
+        isValid: true,
+      })
     })
   })
 
