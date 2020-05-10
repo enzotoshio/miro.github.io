@@ -1,23 +1,12 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: {
-    app: './src/example.js',
+    app: './src/index.js',
   },
-  devtool: 'inline-source-map',
-  devServer: {
-    contentBase: './dist',
-  },
-  plugins: [
-    new CleanWebpackPlugin({ cleanStaleWebpackAssets: false }),
-    new HtmlWebpackPlugin({
-      title: 'Development',
-      template: './src/assets/template.html',
-    }),
-  ],
+  plugins: [new CleanWebpackPlugin({ cleanStaleWebpackAssets: false })],
   output: {
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
