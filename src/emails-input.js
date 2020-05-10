@@ -70,27 +70,34 @@ class EmailsInput {
     })
   }
 
+  insertMultipleEmailBlocks(value) {
+    const trimmedValue = value.replace(/ +/g, '')
+    const emails = trimmedValue.split(',')
+
+    emails.forEach((email) => this.insertEmailBlock(email))
+  }
+
   oninput(event) {
     const {
       target: { value },
+      key,
     } = event
-    const [email, comma] = value.split(',')
-    const hasComma = comma === ''
+    const isComma = key === ','
+    const isEnter = key === 'Enter'
 
-    if (hasComma) {
+    if (isComma || isEnter) {
       event.preventDefault()
       event.stopPropagation()
 
-      this.insertEmailBlock(email)
+      this.insertEmailBlock(value)
     }
   }
 
   onpaste(event) {
-    const {
-      target: { value },
-    } = event
+    const clipboardData = event.clipboardData || window.clipboardData
+    const value = clipboardData.getData('text')
 
-    this.insertEmailBlock(value)
+    this.insertMultipleEmailBlocks(value)
   }
 
   replaceEmails(newEmails) {
@@ -137,8 +144,8 @@ class EmailsInput {
   createHtml() {
     const input = document.createElement('input')
     input.className = 'emails-input--input'
-    input.oninput = this.oninput.bind(this)
     input.onpaste = this.onpaste.bind(this)
+    input.onkeydown = this.oninput.bind(this)
 
     const textArea = document.createElement('div')
     textArea.className = 'emails-input--text-area'

@@ -4,8 +4,8 @@
 
 import EmailsInput from './emails-input'
 
-function createEventMock({ target }) {
-  return { preventDefault() {}, stopPropagation() {}, target }
+function createEventMock(params) {
+  return { preventDefault() {}, stopPropagation() {}, ...params }
 }
 
 describe('EmailsInput', () => {
@@ -34,19 +34,39 @@ describe('EmailsInput', () => {
     })
   })
 
-  describe('#oninput', () => {
-    describe('when the input contains a comma', () => {
+  describe('#onkeydown', () => {
+    describe('when it is a comma', () => {
       it('inserts a new email', () => {
         const container = document.createElement('div')
         new EmailsInput(container)
         const input = container.querySelector('.emails-input--input')
 
-        input.oninput(
-          createEventMock({ target: { value: 'mufasa@lion.com,' } })
+        input.onkeydown(
+          createEventMock({ key: ',', target: { value: 'mufasa@lion.com' } })
         )
 
         const emailBlockValue = container.querySelector(
-          '.emails-input--email-block'
+          '.emails-input--email-block--text'
+        ).textContent
+        expect(emailBlockValue).toContain('mufasa@lion.com')
+      })
+    })
+
+    describe('when it is an enter', () => {
+      it('inserts a new email', () => {
+        const container = document.createElement('div')
+        new EmailsInput(container)
+        const input = container.querySelector('.emails-input--input')
+
+        input.onkeydown(
+          createEventMock({
+            key: 'Enter',
+            target: { value: 'mufasa@lion.com' },
+          })
+        )
+
+        const emailBlockValue = container.querySelector(
+          '.emails-input--email-block--text'
         ).textContent
         expect(emailBlockValue).toContain('mufasa@lion.com')
       })
@@ -58,7 +78,9 @@ describe('EmailsInput', () => {
       const container = document.createElement('div')
       new EmailsInput(container)
       const input = container.querySelector('.emails-input--input')
-      input.oninput(createEventMock({ target: { value: 'mufasa@lion.com,' } }))
+      input.onkeydown(
+        createEventMock({ key: ',', target: { value: 'mufasa@lion.com' } })
+      )
 
       const emailBlock = container.querySelector('.emails-input--email-block')
       const button = emailBlock.querySelector(
@@ -78,14 +100,24 @@ describe('EmailsInput', () => {
       const container = document.createElement('div')
       new EmailsInput(container)
 
-      container
-        .querySelector('.emails-input--input')
-        .onpaste(createEventMock({ target: { value: 'mufasa@lion.com' } }))
+      container.querySelector('.emails-input--input').onpaste(
+        createEventMock({
+          clipboardData: {
+            getData() {
+              return 'mufasa@lion.com, simba@lion.com'
+            },
+          },
+        })
+      )
 
-      const emailBlockValue = container.querySelector(
-        '.emails-input--email-block'
-      ).textContent
-      expect(emailBlockValue).toContain('mufasa@lion.com')
+      const [
+        firstEmailBlockText,
+        secondEmailBlockText,
+      ] = container.querySelectorAll('.emails-input--email-block--text')
+      const firstEmailBlockTextValue = firstEmailBlockText.textContent
+      const secondEmailBlockTextValue = secondEmailBlockText.textContent
+      expect(firstEmailBlockTextValue).toBe('mufasa@lion.com')
+      expect(secondEmailBlockTextValue).toBe('simba@lion.com')
     })
   })
 
@@ -94,7 +126,9 @@ describe('EmailsInput', () => {
       const container = document.createElement('div')
       const emailsInput = new EmailsInput(container)
       const input = container.querySelector('.emails-input--input')
-      input.oninput(createEventMock({ target: { value: 'mufasa@lion.com,' } }))
+      input.onkeydown(
+        createEventMock({ key: ',', target: { value: 'mufasa@lion.com' } })
+      )
 
       const emails = emailsInput.getAllEmails()
 
@@ -107,7 +141,9 @@ describe('EmailsInput', () => {
       const container = document.createElement('div')
       const emailsInput = new EmailsInput(container)
       const input = container.querySelector('.emails-input--input')
-      input.oninput(createEventMock({ target: { value: 'mufasa@lion.com,' } }))
+      input.onkeydown(
+        createEventMock({ key: ',', target: { value: 'mufasa@lion.com' } })
+      )
 
       emailsInput.replaceEmails({ 'mufasa@lion.com': 'simba@lion.com' })
 
