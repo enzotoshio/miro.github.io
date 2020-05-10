@@ -61,7 +61,9 @@ describe('EmailsInput', () => {
       input.oninput(createEventMock({ target: { value: 'mufasa@lion.com,' } }))
 
       const emailBlock = container.querySelector('.emails-input--email-block')
-      const button = emailBlock.querySelector('.emails-input--delete-button')
+      const button = emailBlock.querySelector(
+        '.emails-input--email-block--delete-button'
+      )
       button.onclick(createEventMock({ target: button }))
 
       const deletedEmailBlock = container.querySelector(

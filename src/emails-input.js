@@ -16,7 +16,21 @@ class EmailsInput {
     this.callback = callback
   }
 
-  static createEmailBlock(email) {
+  deleteEmailBlock(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
+    const { target } = event
+    const emailBlock = target.parentElement
+    const email = emailBlock.querySelector('.emails-input--email-block--text')
+      .textContent
+
+    emailBlock.remove()
+
+    this.emitChange({ type: 'delete', values: [email], elements: [emailBlock] })
+  }
+
+  createEmailBlock(email) {
     const emailBlockText = document.createElement('div')
     emailBlockText.className = 'emails-input--email-block--text'
     emailBlockText.textContent = email
@@ -24,7 +38,8 @@ class EmailsInput {
     const emailBlockDeleteButton = document.createElement('div')
     emailBlockDeleteButton.className =
       'emails-input--email-block--delete-button'
-    emailBlockDeleteButton.onclick = () => {}
+    emailBlockDeleteButton.textContent = 'x'
+    emailBlockDeleteButton.onclick = this.deleteEmailBlock.bind(this)
 
     const emailBlock = document.createElement('div')
     emailBlock.className = 'emails-input--email-block'
@@ -45,7 +60,7 @@ class EmailsInput {
   }
 
   insertEmailBlock(email) {
-    const emailBlock = EmailsInput.createEmailBlock(email)
+    const emailBlock = this.createEmailBlock(email)
 
     this.container.appendChild(emailBlock)
     this.emitChange({
@@ -106,13 +121,13 @@ class EmailsInput {
   }
 
   getAllEmails() {
-    const emailBlocks = this.container.querySelectorAll(
-      '.emails-input--email-block'
+    const emailBlocksText = this.container.querySelectorAll(
+      '.emails-input--email-block--text'
     )
     const emails = []
 
-    for (let i = 0; i < emailBlocks.length; i++) {
-      const email = emailBlocks[i].textContent
+    for (let i = 0; i < emailBlocksText.length; i++) {
+      const email = emailBlocksText[i].textContent
       emails.push(email)
     }
 
