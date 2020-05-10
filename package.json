@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --open",
-    "build": "webpack --config webpack.prod.js",
+    "build:prod": "webpack --config webpack.prod.js",
+    "build:example": "webpack --config webpack.example.js",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
     "lint": "eslint --ext .js --ignore-path .gitignore",
@@ -20,10 +21,10 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "src/**/*.js": [
       "npm run lint --"
     ],
-    "*.{js,css,md}": [
+    "src/**/*.{js,css,md}": [
       "npm run prettify --"
     ]
   },
