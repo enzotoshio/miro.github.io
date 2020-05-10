@@ -7,13 +7,18 @@ class EmailsInput {
 
     return {
       getAllEmails: this.getAllEmails.bind(this),
-      // A method to replace all entered emails with new ones.
-      // Ability to subscribe for emails list changes.
+      replaceEmails: this.replaceEmails.bind(this),
+      subscribeToChanges: this.subscribeToChanges.bind(this),
     }
+  }
+
+  subscribeToChanges(callback) {
+    this.callback = callback
   }
 
   static createEmailBlock(email) {
     const emailBlockText = document.createElement('div')
+    emailBlockText.className = 'emails-input--email-block--text'
     emailBlockText.textContent = email
 
     const emailBlockDeleteButton = document.createElement('div')
@@ -30,9 +35,24 @@ class EmailsInput {
     return emailBlock
   }
 
-  insertEmailBlock({ email, container }) {
+  emitChange(change) {
+    const hasValidCallback = typeof this.callback === 'function'
+    const hasValidChange = change && change.type !== ''
+
+    if (!hasValidCallback || !hasValidChange) return
+
+    this.callback(change)
+  }
+
+  insertEmailBlock(email) {
     const emailBlock = EmailsInput.createEmailBlock(email)
-    container.appendChild(emailBlock)
+
+    this.container.appendChild(emailBlock)
+    this.emitChange({
+      type: 'insert',
+      values: ['email'],
+      elements: [emailBlock],
+    })
   }
 
   oninput(event) {
@@ -46,8 +66,43 @@ class EmailsInput {
       event.preventDefault()
       event.stopPropagation()
 
-      this.insertEmailBlock({ email, container: this.container })
+      this.insertEmailBlock(email)
     }
+  }
+
+  onpaste(event) {
+    const {
+      target: { value },
+    } = event
+
+    this.insertEmailBlock(value)
+  }
+
+  replaceEmails(newEmails) {
+    const emailBlocksTexts = this.container.querySelectorAll(
+      '.emails-input--email-block--text'
+    )
+    const replacedEmails = []
+    const replacedEmailBlocks = []
+
+    for (let i = 0; i < emailBlocksTexts.length; i++) {
+      const emailBlockText = emailBlocksTexts[i]
+      const { textContent } = emailBlockText
+      const newEmail = newEmails[textContent]
+
+      if (!newEmail) break
+
+      emailBlockText.textContent = newEmail
+
+      replacedEmails.push(newEmail)
+      replacedEmailBlocks.push(emailBlockText.parentElement)
+    }
+
+    this.emitChange({
+      type: 'replace',
+      values: [replacedEmails],
+      elements: [replacedEmailBlocks],
+    })
   }
 
   getAllEmails() {
@@ -68,6 +123,7 @@ class EmailsInput {
     const input = document.createElement('input')
     input.className = 'emails-input--input'
     input.oninput = this.oninput.bind(this)
+    input.onpaste = this.onpaste.bind(this)
 
     const textArea = document.createElement('div')
     textArea.className = 'emails-input--text-area'

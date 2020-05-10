@@ -27,7 +27,7 @@ describe('EmailsInput', () => {
       expect(emailsInput).toEqual(
         expect.objectContaining({
           getAllEmails: expect.any(Function),
-          replaceAllEmails: expect.any(Function),
+          replaceEmails: expect.any(Function),
           subscribeToChanges: expect.any(Function),
         })
       )
@@ -100,17 +100,17 @@ describe('EmailsInput', () => {
     })
   })
 
-  describe('#replaceAllEmails', () => {
-    it('replaces all emails in all email blocks', () => {
+  describe('#replaceEmails', () => {
+    it('replaces all email blocks with the new value', () => {
       const container = document.createElement('div')
       const emailsInput = new EmailsInput(container)
       const input = container.querySelector('.emails-input--input')
       input.oninput(createEventMock({ target: { value: 'mufasa@lion.com,' } }))
 
-      emailsInput.replaceAllEmails('simba@lion.com')
+      emailsInput.replaceEmails({ 'mufasa@lion.com': 'simba@lion.com' })
 
       const emailBlockValue = container.querySelector(
-        '.emails-input--email-block'
+        '.emails-input--email-block--text'
       ).textContent
       expect(emailBlockValue).toContain('simba@lion.com')
     })
