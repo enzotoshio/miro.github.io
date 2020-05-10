@@ -1,0 +1,62 @@
+.emails-input-container {
+  height: 300px;
+  width: 540px;
+  margin: 0 auto;
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  background: #f8f8f7;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.emails-input-container--title {
+  margin: 32px 50px 24px 50px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 20px;
+  line-height: 27px;
+  color: #050038;
+  box-sizing: border-box;
+}
+
+.emails-input-container--placeholder {
+  margin: 0px 50px 24px 50px;
+  height: 96px;
+  width: 440px;
+  border-radius: 8px 8px 0px 0px;
+  box-sizing: border-box;
+  background: #f8f8f7;
+}
+
+.emails-input-container--buttons-container {
+  background: #ffffff;
+  height: 96px;
+  width: 100%;
+  clear: both;
+  box-sizing: border-box;
+  padding: 24px 50px 32px 50px;
+}
+
+.button {
+  padding: 8px 16px;
+  background: #4262ff;
+  border-radius: 6px;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  color: #ffffff;
+  display: block;
+  cursor: pointer;
+}
+
+.emails-input-container--button {
+  margin: 0px 16px 0px 0px;
+  float: left;
+}
+
+.bold {
+  font-weight: bold;
+}

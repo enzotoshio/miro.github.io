@@ -2,6 +2,7 @@ class EmailsInput {
   constructor(container) {
     this.container = container
     this.input = undefined
+    this.textArea = undefined
 
     this.createHtml()
 
@@ -9,6 +10,7 @@ class EmailsInput {
       getAllEmails: this.getAllEmails.bind(this),
       replaceEmails: this.replaceEmails.bind(this),
       subscribeToChanges: this.subscribeToChanges.bind(this),
+      insertEmail: this.insertEmailBlock.bind(this),
     }
   }
 
@@ -30,7 +32,7 @@ class EmailsInput {
     this.emitChange({ type: 'delete', values: [email], elements: [emailBlock] })
   }
 
-  createEmailBlock(email) {
+  createEmailBlock({ email, isValidEmail }) {
     const emailBlockText = document.createElement('div')
     emailBlockText.className = 'emails-input--email-block--text'
     emailBlockText.textContent = email
@@ -38,11 +40,11 @@ class EmailsInput {
     const emailBlockDeleteButton = document.createElement('div')
     emailBlockDeleteButton.className =
       'emails-input--email-block--delete-button'
-    emailBlockDeleteButton.textContent = 'x'
     emailBlockDeleteButton.onclick = this.deleteEmailBlock.bind(this)
 
     const emailBlock = document.createElement('div')
-    emailBlock.className = 'emails-input--email-block'
+    const validationClass = isValidEmail ? 'valid' : 'invalid'
+    emailBlock.className = `emails-input--email-block ${validationClass}`
 
     emailBlock.appendChild(emailBlockText)
     emailBlock.appendChild(emailBlockDeleteButton)
@@ -60,9 +62,15 @@ class EmailsInput {
   }
 
   insertEmailBlock(email) {
-    const emailBlock = this.createEmailBlock(email)
+    if (email === '') return
 
-    this.container.appendChild(emailBlock)
+    const isValidEmail = email.match(/^\w+@\w+\.\w+(\.\w+)?$/)
+    const emailBlock = this.createEmailBlock({ email, isValidEmail })
+
+    this.textArea.insertBefore(emailBlock, this.input)
+
+    this.input.value = ''
+
     this.emitChange({
       type: 'insert',
       values: ['email'],
@@ -94,6 +102,9 @@ class EmailsInput {
   }
 
   onpaste(event) {
+    event.preventDefault()
+    event.stopPropagation()
+
     const clipboardData = event.clipboardData || window.clipboardData
     const value = clipboardData.getData('text')
 
@@ -134,8 +145,12 @@ class EmailsInput {
     const emails = []
 
     for (let i = 0; i < emailBlocksText.length; i++) {
-      const email = emailBlocksText[i].textContent
-      emails.push(email)
+      const emailBlockText = emailBlocksText[i]
+      const emailBlock = emailBlockText.parentElement
+      const email = emailBlockText.textContent
+      const isValid = emailBlock.classList.contains('valid')
+
+      emails.push({ element: emailBlock, address: email, isValid })
     }
 
     return emails
@@ -144,6 +159,7 @@ class EmailsInput {
   createHtml() {
     const input = document.createElement('input')
     input.className = 'emails-input--input'
+    input.placeholder = 'add more people…'
     input.onpaste = this.onpaste.bind(this)
     input.onkeydown = this.oninput.bind(this)
 
@@ -154,6 +170,7 @@ class EmailsInput {
     this.container.appendChild(textArea)
 
     this.input = input
+    this.textArea = textArea
   }
 }
 

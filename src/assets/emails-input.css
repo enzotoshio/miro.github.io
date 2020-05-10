@@ -1,4 +1,99 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Open Sans Regular'), local('OpenSans-Regular'),
+    url('./fonts/Open_Sans/OpenSans-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 800;
+  src: local('Open Sans Bold'), local('OpenSans-Bold'),
+    url('./fonts/Open_Sans/OpenSans-Bold.ttf');
+}
+
 .emails-input--text-area {
   width: 100%;
-  background-color: black;
+  height: 100%;
+  background: #ffffff;
+  border: 1px solid #c3c2cf;
+  box-sizing: border-box;
+  border-radius: 4px;
+  padding: 8px 7px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.emails-input--input {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  float: left;
+}
+
+.emails-input--input::placeholder {
+  color: #c3c2cf;
+  opacity: 1;
+}
+
+.emails-input--input:-ms-input-placeholder {
+  color: #c3c2cf;
+}
+
+.emails-input--input::-ms-input-placeholder {
+  color: #c3c2cf;
+}
+
+.emails-input--input:focus {
+  outline: none;
+}
+
+.emails-input--email-block {
+  background: rgba(102, 153, 255, 0.2);
+  border-radius: 100px;
+  padding: 0px 8px 0px 10px;
+  display: inline-block;
+  float: left;
+  margin: 0px 8px 4px 0px;
+  user-select: none;
+}
+
+.emails-input--email-block.valid {
+  background: rgba(102, 153, 255, 0.2);
+}
+
+.emails-input--email-block.invalid {
+  background: rgba(255, 255, 255, 1);
+}
+
+.emails-input--email-block--delete-button {
+  float: left;
+  background-image: url('remove.png');
+  height: 8px;
+  width: 8px;
+  margin: 8px 0px 8px 8px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.emails-input--email-block--text {
+  float: left;
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: right;
+  color: #050038;
+  user-select: none;
 }
