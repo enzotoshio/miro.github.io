@@ -25,5 +25,3 @@ getEmailsCountButton.onclick = () => {
 
   alert(`Valid emails: ${validEmails.length}`)
 }
-
-console.log(emailsInput)
