@@ -7,6 +7,7 @@
     "test": "jest",
     "start": "webpack-dev-server --open",
     "build:prod": "webpack --config webpack.prod.js",
+    "build:prod:webpack": "webpack --config webpack.prod-webpack.js",
     "build:example": "webpack --config webpack.example.js",
     "test:watch": "jest --watch",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watch",
