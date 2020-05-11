@@ -10,7 +10,7 @@ const addEmailButton = inputContainer.querySelector('.add-email-button')
 const getEmailsCountButton = inputContainer.querySelector(
   '.get-emails-count-button'
 )
-const emailsInput = new EmailsInput(inputContainerPlaceholder, {})
+const emailsInput = new EmailsInput(inputContainerPlaceholder)
 const randomEmails = ['musafa@lion.com', 'simba@lion.com', 'nala@lion.com']
 
 addEmailButton.onclick = () => {
