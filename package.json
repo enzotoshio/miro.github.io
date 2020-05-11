@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "webpack-dev-server --open",
     "build:prod": "webpack --config webpack.prod.js",
     "build:example": "webpack --config webpack.example.js",
@@ -13,7 +13,13 @@
     "lint": "eslint --ext .js --ignore-path .gitignore",
     "prettify": "prettier --config .prettierrc --write"
   },
-  "author": "",
+  "author": "Enzo Toshio",
+  "contributors": [
+    {
+      "name": "Enzo Toshio",
+      "url": "https://github.com/enzotoshio"
+    }
+  ],
   "license": "MIT",
   "husky": {
     "hooks": {
